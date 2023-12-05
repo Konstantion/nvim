@@ -86,12 +86,6 @@ require('lspconfig').phpactor.setup {
     on_attach = lsp.on_attach,
 }
 
-local null_ls = require("null-ls")
-
-null_ls.setup({
-    on_attach = lsp.on_attach,
-})
-
 lsp.setup()
 
 vim.diagnostic.config({
