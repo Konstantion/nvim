@@ -11,7 +11,6 @@ return require('packer').startup(function(use)
     }
     use('nvim-treesitter/nvim-treesitter', { run = ':TSUpdate' })
     use('nvim-treesitter/playground')
-    use({ 'rose-pine/neovim', as = 'rose-pine' })
     use('theprimeagen/harpoon')
     use("mbbill/undotree")
     use("tpope/vim-fugitive")
@@ -48,17 +47,28 @@ return require('packer').startup(function(use)
             require('Comment').setup()
         end
     }
-    use("airblade/vim-rooter")
+
     use("mfussenegger/nvim-dap")
     use("rcarriga/nvim-dap-ui")
     use("theHamsta/nvim-dap-virtual-text")
+
     use("tpope/vim-surround")
     use({
         "jose-elias-alvarez/null-ls.nvim",
         requires = { "nvim-lua/plenary.nvim" },
     })
-    use("folke/tokyonight.nvim")
     use('mfussenegger/nvim-jdtls')
+
+    use({ 'rose-pine/neovim', as = 'rose-pine' })
+    use("folke/tokyonight.nvim")
     use('catppuccin/nvim')
     use('rebelot/kanagawa.nvim')
+    use {
+        'nvim-lualine/lualine.nvim',
+        requires = { 'nvim-tree/nvim-web-devicons', opt = true }
+    }
+    use {
+        'akinsho/bufferline.nvim',
+        dependencies = 'nvim-tree/nvim-web-devicons'
+    }
 end)

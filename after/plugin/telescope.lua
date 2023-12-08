@@ -7,12 +7,14 @@ vim.keymap.set('n', '<leader>ps', function()
     builtin.grep_string({ search = vim.fn.input("Grep > ") })
 end)
 vim.keymap.set('n', '<leader>vh', builtin.help_tags, {})
+vim.keymap.set('n', '<leader>pc', builtin.commands, {})
+vim.keymap.set('n', '<leader>pg', builtin.live_grep, {})
 
 require('telescope').setup {
-  defaults = {
-    path_display = function(opts, path)
-      local tail = require("telescope.utils").path_tail(path)
-      return string.format("%s — %s", tail, path), { { { 1, #tail }, "Constant" } }
-    end,
-  }
+    defaults = {
+        path_display = function(opts, path)
+            local tail = require("telescope.utils").path_tail(path)
+            return string.format("%s — %s", tail, path), { { { 1, #tail }, "Constant" } }
+        end,
+    }
 }

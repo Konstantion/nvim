@@ -1,8 +1,8 @@
 local lsp = require("lsp-zero")
+local FORMATTING_ENABLED = true
 
 lsp.preset("recommended")
 
--- Extend lspconfig with lsp-zero to avoid errors
 lsp.extend_lspconfig()
 
 require("mason").setup {
@@ -34,7 +34,7 @@ cmp.setup({
         ['<C-n>'] = cmp.mapping.select_next_item(),
         ['<C-y>'] = cmp.mapping.confirm({ select = true }),
         ["<C-Space>"] = cmp.mapping.complete(),
-        -- The following lines are for integrating with LuaSnip, if you use it
+
         ['<C-f>'] = cmp_action.luasnip_jump_forward(),
         ['<C-b>'] = cmp_action.luasnip_jump_backward(),
         ['<C-u>'] = cmp.mapping.scroll_docs(-4),
@@ -69,10 +69,17 @@ lsp.on_attach(function(client, bufnr)
     vim.keymap.set("n", "<leader>vd", function() vim.diagnostic.open_float() end, opts)
     vim.keymap.set("n", "[d", function() vim.diagnostic.goto_next() end, opts)
     vim.keymap.set("n", "]d", function() vim.diagnostic.goto_prev() end, opts)
+    vim.keymap.set("n", "<leader>vfd", function() vim.diagnostic.setloclist() end, opts)
 
     vim.keymap.set("n", "<leader>vgr", function() vim.lsp.buf.references() end, opts)
     vim.keymap.set("n", "<leader>vrn", function() vim.lsp.buf.rename() end, opts)
-    vim.keymap.set("n", "<leader>f", function() vim.lsp.buf.format() end, opts)
+
+    vim.keymap.set("n", "<leader>f", function()
+        -- print("Formatting command triggered. Current setting: " .. tostring(FORMATTING_ENABLED))
+        if FORMATTING_ENABLED then
+            vim.lsp.buf.format()
+        end
+    end, opts)
 
     vim.keymap.set({ "n", "v" }, "<leader>vca", function() vim.lsp.buf.code_action() end, opts)
     vim.keymap.set("n", "K", function() vim.lsp.buf.hover() end, opts)
@@ -80,6 +87,12 @@ lsp.on_attach(function(client, bufnr)
     -- I like this telescope bindings
     vim.keymap.set("n", "<leader>gr", require('telescope.builtin').lsp_references, opts)
     vim.keymap.set("n", "<leader>ds", require('telescope.builtin').lsp_document_symbols, opts)
+    vim.keymap.set("n", "<leader>ws", function()
+        require('telescope.builtin').lsp_workspace_symbols({
+            query = vim.fn.input("Query or empty > ")
+        })
+    end, opts)
+    vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, opts)
 end)
 
 require('lspconfig').phpactor.setup {
@@ -91,3 +104,8 @@ lsp.setup()
 vim.diagnostic.config({
     virtual_text = true
 })
+
+function SetFormattingEnabled(enable)
+    FORMATTING_ENABLED = enable
+    -- print("Formatting Enabled: " .. tostring(FORMATTING_ENABLED))
+end
