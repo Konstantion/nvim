@@ -1,5 +1,7 @@
-local lsp = require("lsp-zero")
 local FORMATTING_ENABLED = true
+local DIAGNOSTICS_ENABLED = true
+
+local lsp = require("lsp-zero")
 
 lsp.preset("recommended")
 
@@ -9,6 +11,14 @@ require("mason").setup {
     log_level = vim.log.levels.DEBUG
 }
 
+require('mason-nvim-dap').setup({
+    ensure_installed = { 'delve' },
+    handlers = {
+        function(config)
+            require('mason-nvim-dap').default_setup(config)
+        end,
+    },
+})
 require('mason-lspconfig').setup({
     ensure_installed = {
         'tsserver',
@@ -83,8 +93,10 @@ lsp.on_attach(function(client, bufnr)
 
     vim.keymap.set({ "n", "v" }, "<leader>vca", function() vim.lsp.buf.code_action() end, opts)
     vim.keymap.set("n", "K", function() vim.lsp.buf.hover() end, opts)
-    vim.keymap.set("i", "<C-p>", function() vim.lsp.buf.signature_help() end, opts)
-    -- I like this telescope bindings
+    vim.
+
+        keymap.set("i", "<C-p>", function() vim.lsp.buf.signature_help() end, opts)
+
     vim.keymap.set("n", "<leader>gr", require('telescope.builtin').lsp_references, opts)
     vim.keymap.set("n", "<leader>ds", require('telescope.builtin').lsp_document_symbols, opts)
     vim.keymap.set("n", "<leader>ws", function()
@@ -99,13 +111,31 @@ require('lspconfig').phpactor.setup {
     on_attach = lsp.on_attach,
 }
 
+require('lspconfig').ltex.setup({
+    filetypes = { "txt", "md" },
+    flags = { debounce_text_changes = 2000 },
+    settings = {
+        ltex = {
+            language = "en"
+        }
+    },
+    on_attach = lsp.on_attach,
+})
+
 lsp.setup()
 
 vim.diagnostic.config({
-    virtual_text = true
+    virtual_text = DIAGNOSTICS_ENABLED
 })
 
 function SetFormattingEnabled(enable)
     FORMATTING_ENABLED = enable
     -- print("Formatting Enabled: " .. tostring(FORMATTING_ENABLED))
+end
+
+function SetDiagnosticsEnabled(enable)
+    DIAGNOSTICS_ENABLED = enable
+    vim.diagnostic.config({
+        virtual_text = DIAGNOSTICS_ENABLED
+    })
 end

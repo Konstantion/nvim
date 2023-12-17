@@ -1,17 +1,26 @@
-require'nvim-treesitter.configs'.setup {
-  -- A list of parser names, or "all" (the five listed parsers should always be installed)
-  ensure_installed = { "java", "c", "lua", "vim", "vimdoc" },
+local function disable(lang)
+    local bufferName = vim.api.nvim_buf_get_name(0)
+    if string.find(bufferName, ".mod") then
+        return true
+    end
+end
 
-  -- Install parsers synchronously (only applied to `ensure_installed`)
-  sync_install = false,
+require 'nvim-treesitter.configs'.setup {
+    -- A list of parser names, or "all" (the five listed parsers should always be installed)
+    ensure_installed = { "java", "c", "lua", "vim", "vimdoc" },
 
-  -- Automatically install missing parsers when entering buffer
-  -- Recommendation: set to false if you don't have `tree-sitter` CLI installed locally
-  auto_install = true,
+    -- Install parsers synchronously (only applied to `ensure_installed`)
+    sync_install = false,
 
-  highlight = {
-    enable = true,
+    -- Automatically install missing parsers when entering buffer
+    -- Recommendation: set to false if you don't have `tree-sitter` CLI installed locally
+    auto_install = true,
 
-    additional_vim_regex_highlighting = false,
-  },
+    disable = disable,
+
+    highlight = {
+        enable = true,
+
+        additional_vim_regex_highlighting = false,
+    },
 }

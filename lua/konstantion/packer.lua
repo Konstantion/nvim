@@ -24,7 +24,7 @@ return require('packer').startup(function(use)
             { 'neovim/nvim-lspconfig' },
             { 'williamboman/mason.nvim' },
             { 'williamboman/mason-lspconfig.nvim' },
-
+            { "jay-babu/mason-nvim-dap.nvim" },
             { 'hrsh7th/nvim-cmp' },
             { 'hrsh7th/cmp-buffer' },
             { 'hrsh7th/cmp-path' },
