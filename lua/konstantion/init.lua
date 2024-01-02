@@ -23,9 +23,18 @@ autocmd('TextYankPost', {
     end,
 })
 
-autocmd({"BufWritePre"}, {
+autocmd({ "BufWritePre" }, {
     group = KonstantionGroup,
     pattern = "*",
     command = [[%s/\s\+$//e]],
 })
 
+autocmd({ "BufWritePost" }, {
+    group = KonstantionGroup,
+    pattern = "*",
+    callback = function()
+        if next(vim.lsp.buf_get_clients(0)) then
+            pcall(vim.lsp.codelens.refresh)
+        end
+    end,
+})

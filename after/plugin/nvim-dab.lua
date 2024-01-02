@@ -3,8 +3,8 @@ local dap_ui = require('dapui')
 dap_ui.setup({
     icons = { expanded = '▾', collapsed = '▸' },
     mappings = {
-        -- use custom bindings
-        expand = { "<cr>", "<2-leftmouse>" },
+        -- Use custom bindings
+        expand = { "<CR>", "<2-LeftMouse>" },
         open = "o",
         remove = "d",
         edit = "e",
@@ -13,7 +13,6 @@ dap_ui.setup({
     sidebar = {
         open_on_start = true,
         elements = {
-            -- provide as needed
             {
                 id = "scopes",
                 size = 0.25
@@ -26,7 +25,7 @@ dap_ui.setup({
     tray = {
         open_on_start = true,
         elements = {
-            -- provide as needed
+            -- Provide as needed
             -- { id = "repl" },
         },
     },
@@ -34,14 +33,21 @@ dap_ui.setup({
         max_height = nil,
         max_width = nil,
         mappings = {
-            close = { "q", "<esc>" },
+            close = { "q", "<Esc>" },
         },
     },
     windows = { indent = 1 },
 })
 
-vim.api.nvim_set_keymap('n', '<f5>', ':lua require"dap".continue()<cr>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<f10>', ':lua require"dap".step_over()<cr>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<f11>', ':lua require"dap".step_into()<cr>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<f12>', ':lua require"dap".step_out()<cr>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<leader>b', ':lua require"dap".toggle_breakpoint()<cr>', { noremap = true, silent = true })
+local dap = require('dap')
+
+vim.keymap.set('n', '<leader>dcc', dap.continue, { silent = true })
+-- vim.keymap.set('n', '<leader>dso', dap.step_over, { silent = true })
+-- vim.keymap.set('n', '<leader>dsi', dap.step_into, { silent = true })
+-- vim.keymap.set('n', '<leader>dsu', dap.step_out, { silent = true })
+vim.keymap.set('n', '<leader>b', ':PBToggleBreakpoint<CR>', { silent = true, noremap = true })
+-- vim.keymap.set('n', '<leader>dst', ':DapStop<CR>', { silent = true })
+
+require('persistent-breakpoints').setup({
+    load_breakpoints_event = { "BufRead" }
+})

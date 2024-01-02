@@ -41,13 +41,32 @@ require('lualine').setup {
                 sections = { 'error', 'warn', 'info', 'hint' },
 
                 symbols = { error = 'E', warn = 'W', info = 'I', hint = 'H' },
-                colored = true,       -- Displays diagnostics status in color if set to true.
-                update_in_insert = false, -- Update diagnostics in insert mode.
-                always_visible = false, -- Show diagnostics even if there are none.
+                colored = true,
+                update_in_insert = false,
+                always_visible = false,
             }
         },
         lualine_c = { 'filename' },
-        lualine_x = { 'encoding', 'filetype' },
+        lualine_x = { { 'encoding' }, { 'filetype', fmt = function(str)
+            if str == 'java' then
+                return '󰇷'
+            elseif str == 'cpp' then
+                return '󰙲'
+            elseif str == 'c' then
+                return '󰙱'
+            elseif str == 'go' then
+                return ''
+            elseif str == 'python' then
+                return 'FUCK YOURSELF'
+            elseif str == 'javascript' then
+                return ''
+            elseif str == 'lua' then
+                return ''
+            elseif str == 'bash' then
+                return '󱆃'
+            end
+            return str
+        end } },
         lualine_y = { 'progress' },
         lualine_z = { 'location' }
     },

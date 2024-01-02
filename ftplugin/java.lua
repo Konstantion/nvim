@@ -5,6 +5,8 @@ local home = os.getenv('HOME')
 local project_name = vim.fn.fnamemodify(vim.fn.getcwd(), ':p:h:t')
 
 local workspace_dir = home .. '/workspace-root/' .. project_name
+local debuger_dir = home .. '/.config/java-debug/com.microsoft.java.debug.plugin/target/com.microsoft.java.debug.plugin-*.jar'
+local test_debuger_dir = home .. '/.config/vscode-java-test/server/*.jar '
 
 local config = {
     cmd = {
@@ -20,12 +22,9 @@ local config = {
         '--add-opens', 'java.base/java.util=ALL-UNNAMED',
         '--add-opens', 'java.base/java.lang=ALL-UNNAMED',
 
-        '-jar', home .. '/.config/eclipse.jdt.ls/org.eclipse.jdt.ls.product/target/products/languageServer.product/linux/gtk/x86_64/plugins/org.eclipse.equinox.launcher_1.6.600.v20231012-1237.jar',
-
-
+        '-jar', home ..
+    '/.config/eclipse.jdt.ls/org.eclipse.jdt.ls.product/target/products/languageServer.product/linux/gtk/x86_64/plugins/org.eclipse.equinox.launcher_1.6.600.v20231012-1237.jar',
         '-configuration', home .. '/.config/eclipse.jdt.ls/org.eclipse.jdt.ls.product/target/repository/config_linux',
-
-
         '-data', workspace_dir
     },
 
@@ -57,24 +56,35 @@ local config = {
                 eclipse = {
                     downloadSources = true,
                 },
-                gradle = {
-                    enabled = true,
-                },
                 maven = {
                     downloadSources = true,
                 },
-                -- implementationsCodeLens = {
-                --     enabled = true,
-                -- },
-                -- referencesCodeLens = {
-                --     enabled = true,
-                -- },
-                -- references = {
-                --     includeDecompiledSources = true,
-                -- }
+                implementationsCodeLens = {
+                    enabled = true,
+                },
+                referencesCodeLens = {
+                    enabled = true,
+                },
+                inlayHints = {
+                    parameterNames = {
+                        enabled = 'all' -- literals, all, none
+                    }
+                },
+                references = {
+                    includeDecompiledSources = true,
+                }
             }
         }
-    }
+    },
+}
+
+local bundles = {
+  vim.fn.glob(debuger_dir, 1),
+};
+
+vim.list_extend(bundles, vim.split(vim.fn.glob(test_debuger_dir, 1), "\n"))
+config['init_options'] = {
+  bundles = bundles;
 }
 
 require('jdtls').start_or_attach(config)

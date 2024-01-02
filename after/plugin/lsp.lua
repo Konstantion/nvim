@@ -19,12 +19,12 @@ require('mason-nvim-dap').setup({
         end,
     },
 })
+
 require('mason-lspconfig').setup({
     ensure_installed = {
         'tsserver',
         'rust_analyzer',
         'ltex',
-        -- Add lua_ls if you're working with Lua
     },
     handlers = {
         lsp.default_setup,
@@ -72,7 +72,10 @@ require('lspconfig').lua_ls.setup(lua_opts)
 lsp.on_attach(function(client, bufnr)
     local opts = { buffer = bufnr, remap = false }
 
+    vim.keymap.set("n", "<leader>ih", vim.lsp.inlay_hint.get, opts)
+    vim.keymap.set("n", "<leader>cl", vim.lsp.codelens.run, opts)
     vim.keymap.set("n", "gd", function() vim.lsp.buf.definition() end, opts)
+    vim.keymap.set("n", "gD", function() vim.lsp.buf.declaration() end, opts)
     vim.keymap.set("n", "gi", function() vim.lsp.buf.implementation() end, opts)
 
     vim.keymap.set("n", "<leader>vws", function() vim.lsp.buf.workspace_symbol() end, opts)
@@ -111,16 +114,20 @@ require('lspconfig').phpactor.setup {
     on_attach = lsp.on_attach,
 }
 
-require('lspconfig').ltex.setup({
-    filetypes = { "txt", "md" },
-    flags = { debounce_text_changes = 2000 },
+local ltex_cmd = os.getenv("HOME") .. "/.local/share/nvim/mason/packages/ltex-ls/ltex-ls-16.0.0/bin/ltex-ls"
+require("lspconfig").ltex.setup({
+    filetypes = { "text", "md", "tex", "bib" },
+    cmd = { ltex_cmd },
     settings = {
         ltex = {
-            language = "en"
-        }
+            checkFrequency = "save",
+            language = "en-GB",
+        },
     },
     on_attach = lsp.on_attach,
 })
+
+require('lsp-inlayhints').on_attach = lsp.on_attach
 
 lsp.setup()
 
@@ -130,7 +137,6 @@ vim.diagnostic.config({
 
 function SetFormattingEnabled(enable)
     FORMATTING_ENABLED = enable
-    -- print("Formatting Enabled: " .. tostring(FORMATTING_ENABLED))
 end
 
 function SetDiagnosticsEnabled(enable)
