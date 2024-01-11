@@ -56,23 +56,6 @@ require("lualine").setup({
             {
                 "filetype",
                 fmt = function(str)
-                    if str == "java" then
-                        return "󰇷"
-                        -- elseif str == 'cpp' then
-                        --     return '󰙲'
-                        -- elseif str == 'c' then
-                        --     return '󰙱'
-                        -- elseif str == 'go' then
-                        --     return ''
-                    elseif str == "python" then
-                        return "FUCK YOURSELF"
-                        -- elseif str == 'javascript' then
-                        --     return ''
-                        -- elseif str == 'lua' then
-                        --     return ''
-                        -- elseif str == 'bash' then
-                        --     return '󱆃'
-                    end
                     return str
                 end,
             },
