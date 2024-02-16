@@ -147,13 +147,15 @@ lsp.on_attach(function(client, bufnr)
 		require("jdtls").test_nearest_method()
 	end)
 	vim.keymap.set("n", "<leader>gD", require("telescope.builtin").lsp_type_definitions, opts)
-	vim.keymap.set("n", "<leader>vic", vim.lsp.buf.incoming_calls, opts)
-	vim.keymap.set("n", "<leader>voc", vim.lsp.buf.outgoing_calls, opts)
 end)
 
 require("lspconfig").phpactor.setup({
 	on_attach = lsp.on_attach,
 })
+
+require'lspconfig'.kotlin_language_server.setup{
+    on_attach = lsp.on_attach,
+}
 
 require("lsp-inlayhints").on_attach = lsp.on_attach
 

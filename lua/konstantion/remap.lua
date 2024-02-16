@@ -40,3 +40,10 @@ vim.keymap.set("n", "<C-Down>", ":resize -4<cr>", { desc = "Decrease window heig
 vim.keymap.set("n", "<C-Left>", ":vertical resize -4<cr>", { desc = "Decrease window width" })
 vim.keymap.set("n", "<C-Right>", ":vertical resize +4<cr>", { desc = "Increase window width" })
 vim.keymap.set("n", "<C-i>", "<C-a>", {})
+vim.keymap.set("n", "<leader>ap", ":lua CopyAbsolutePath()<CR>", { noremap = true, silent = true })
+
+function CopyAbsolutePath()
+  local path = vim.fn.expand("%:p")
+  vim.fn.setreg("+", path)
+  print("Copied path to clipboard: " .. path)
+end
