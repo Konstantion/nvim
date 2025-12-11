@@ -118,24 +118,11 @@ return {
             })
 
             require("mason-lspconfig").setup({
-                ensure_installed = { "ts_ls", "rust_analyzer", "lua_ls" }, -- Added lua_ls per your previous request
+                ensure_installed = { "ts_ls", "lua_ls" }, -- Added lua_ls per your previous request
                 handlers = {
                     -- Default Handler (applied to everything else)
                     function(server_name)
                         require("lspconfig")[server_name].setup({})
-                    end,
-
-                    -- Specific Handler for Rust (to enable Clippy)
-                    ["rust_analyzer"] = function()
-                        require("lspconfig").rust_analyzer.setup({
-                            settings = {
-                                ["rust-analyzer"] = {
-                                    checkOnSave = {
-                                        command = "clippy",
-                                    },
-                                },
-                            },
-                        })
                     end,
                 },
             })
