@@ -2,7 +2,7 @@
 vim.g.mapleader = " "
 
 -- Directory navigation
-vim.keymap.set("n", "<leader>pv", vim.cmd.Ex)
+-- vim.keymap.set("n", "<leader>pv", vim.cmd.Ex)
 
 -- Move selected lines up/down in Visual Mode (The "Primeagen" move)
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
