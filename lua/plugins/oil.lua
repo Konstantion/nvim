@@ -9,6 +9,10 @@ return {
         view_options = {
 			show_hidden = true,
 		},
+        lsp_file_methods = {
+            enabled = true,
+            autosave_changes = true,
+        },
 	},
 	dependencies = { { "nvim-mini/mini.icons", opts = {} } },
 	lazy = false,

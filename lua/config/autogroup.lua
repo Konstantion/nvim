@@ -27,16 +27,6 @@ autocmd({ "BufWritePre" }, {
 	command = [[%s/\s\+$//e]],
 })
 
--- autocmd({ "BufWritePost" }, {
---         group = buf_group,
---         pattern = "*",
---         callback = function()
---                 if next(vim.lsp.buf_get_clients(0)) then
---                         pcall(vim.lsp.codelens.refresh)
---                 end
---         end,
--- })
-
 vim.api.nvim_create_augroup("OilCustomMaps", { clear = true })
 
 vim.api.nvim_create_autocmd("FileType", {
