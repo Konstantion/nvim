@@ -6,6 +6,9 @@ return {
 		columns = {
 			"icon",
 		},
+        view_options = {
+			show_hidden = true,
+		},
 	},
 	dependencies = { { "nvim-mini/mini.icons", opts = {} } },
 	lazy = false,
@@ -21,7 +24,6 @@ return {
 				if #config.columns == 1 then
 					oil.set_columns({ "icon", "permissions", "size", "mtime" })
 				else
-					-- If currently detailed, switch back to simple
 					oil.set_columns({ "icon" })
 				end
 			end,
