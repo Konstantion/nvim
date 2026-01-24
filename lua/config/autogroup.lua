@@ -52,3 +52,35 @@ vim.api.nvim_create_autocmd("FileType", {
 		end, { buffer = true, silent = true, desc = "Show file metadata" })
 	end,
 })
+
+vim.api.nvim_create_autocmd({ "LspAttach" }, {
+	callback = function(args)
+		local client = vim.lsp.get_client_by_id(args.data.client_id)
+		if client ~= nil and vim.lsp.client.supports_method(client, "textDocument/codeLens") then
+			vim.api.nvim_create_autocmd({ "BufEnter", "InsertLeave", "BufWritePost" }, {
+				buffer = args.buf,
+				callback = function()
+					vim.lsp.codelens.refresh({ bufnr = args.buf })
+				end,
+			})
+			vim.keymap.set("n", "<leader>cl", vim.lsp.codelens.run, { buffer = args.buf, desc = "LSP Code Lens" })
+		end
+	end,
+})
+
+vim.api.nvim_create_autocmd("LspAttach", {
+	callback = function(args)
+		local client = vim.lsp.get_client_by_id(args.data.client_id)
+		if client ~= nil and vim.lsp.client.supports_method(client, "textDocument/documentHighlight") then
+			vim.api.nvim_create_autocmd("CursorHold", {
+				buffer = args.buf,
+				callback = vim.lsp.buf.document_highlight,
+			})
+
+			vim.api.nvim_create_autocmd("CursorMoved", {
+				buffer = args.buf,
+				callback = vim.lsp.buf.clear_references,
+			})
+		end
+	end,
+})
