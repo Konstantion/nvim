@@ -161,6 +161,19 @@ return {
 			vim.diagnostic.config({
 				virtual_text = true,
 			})
+
+			local lspconfig = require("lspconfig")
+			lspconfig.hls.setup({
+				cmd = { "haskell-language-server-wrapper", "--lsp" },
+				filetypes = { "haskell", "lhaskell", "cabal" },
+				settings = {
+					haskell = {
+						formattingProvider = "ormolu",
+						checkProject = true,
+					},
+				},
+				on_attach = lsp_attach,
+            })
 		end,
 	},
 }

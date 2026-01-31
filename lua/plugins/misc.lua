@@ -20,6 +20,7 @@ return {
 		"github/copilot.vim",
 		lazy = false, -- Load immediately so it can attach
 		config = function()
+			vim.g.copilot_enabled = false
 			-- Optional: Map <C-J> to accept suggestion if you prefer that over <Tab>
 			-- vim.g.copilot_no_tab_map = true
 			-- vim.keymap.set('i', '<C-J>', 'copilot#Accept("\\<CR>")', {
