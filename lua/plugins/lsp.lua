@@ -89,10 +89,6 @@ return {
 				vim.keymap.set("n", "gi", function()
 					vim.lsp.buf.implementation()
 				end, opts)
-				vim.keymap.set("n", "gr", function()
-					vim.lsp.buf.references()
-				end, opts)
-
 				-- Diagnostics
 				vim.keymap.set("n", "<leader>vd", function()
 					vim.diagnostic.open_float()
