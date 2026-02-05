@@ -18,18 +18,12 @@ return {
 
 	{
 		"github/copilot.vim",
-		lazy = false, -- Load immediately so it can attach
+		lazy = true,
+		cmd = "Copilot",
 		config = function()
 			vim.g.copilot_enabled = false
-			-- Optional: Map <C-J> to accept suggestion if you prefer that over <Tab>
-			-- vim.g.copilot_no_tab_map = true
-			-- vim.keymap.set('i', '<C-J>', 'copilot#Accept("\\<CR>")', {
-			--     expr = true,
-			--     replace_keycodes = false
-			-- })
 		end,
 	},
-
 	{
 		"laytan/cloak.nvim",
 		ft = { "sh", "env" }, -- Only load for shell/env files
