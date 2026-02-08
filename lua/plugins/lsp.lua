@@ -158,10 +158,9 @@ return {
 				virtual_text = true,
 			})
 
-			local lspconfig = require("lspconfig")
-			lspconfig.hls.setup({
+			vim.lsp.config("hls", {
 				cmd = { "haskell-language-server-wrapper", "--lsp" },
-				filetypes = { "haskell", "lhaskell", "cabal" },
+				filetypes = { "haskell", "lhaskell", "cabal", "hs" },
 				settings = {
 					haskell = {
 						formattingProvider = "ormolu",
@@ -169,7 +168,7 @@ return {
 					},
 				},
 				on_attach = lsp_attach,
-            })
+			})
 		end,
 	},
 }
