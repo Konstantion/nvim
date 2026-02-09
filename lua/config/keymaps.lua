@@ -57,3 +57,4 @@ vim.keymap.set("n", "<C-Right>", ":vertical resize +4<cr>", { desc = "Increase w
 -- Note: 'remap = true' might be needed here if <C-a> is mapped by a plugin,
 -- but usually default behavior is fine for built-ins.
 vim.keymap.set("n", "<C-q>", "<C-a>")
+vim.keymap.set("t", "<Esc>", [[<C-\><C-n>]], { desc = "Escape terminal mode" })
