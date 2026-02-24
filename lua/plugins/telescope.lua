@@ -59,6 +59,16 @@ return {
 					local tail = require("telescope.utils").path_tail(path)
 					return string.format("%s — %s", tail, path), { { { 1, #tail }, "Constant" } }
 				end,
+				history = {
+					path = vim.fn.stdpath("data") .. "/telescope_history",
+					limit = 100,
+				},
+				mappings = {
+					i = {
+						["<C-Up>"] = require("telescope.actions").cycle_history_prev,
+						["<C-Down>"] = require("telescope.actions").cycle_history_next,
+					},
+				},
 			},
 			extensions = {
 				fzf = {},
